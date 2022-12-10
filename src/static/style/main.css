@@ -1,0 +1,152 @@
+
+
+/* ------------------------------- */
+/* 1. Variables                    */
+/* ------------------------------- */
+
+:root
+{
+--couleur: #9b8155;
+--couleur-secondaire: #8a9b55;
+}
+
+
+/* ------------------------------- */
+/* 2. Imports                      */
+/* ------------------------------- */
+
+@font-face
+{
+font-family: "Icons";
+font-style: normal;
+src: url('fonts/Icons.woff');
+}
+
+@font-face
+{
+font-family: "SourceSansPro";
+font-style: normal;
+src: url('fonts/SourceSansPro-Regular.woff');
+}
+
+@font-face
+{
+font-family: "SourceSansPro";
+font-style: italic;
+src: url('fonts/SourceSansPro-Italic.woff');
+}
+
+@keyframes rotation
+{
+    from
+    {
+        transform: rotate(0deg);
+    }
+    to
+    {
+        transform: rotate(359deg);
+    }
+}
+
+
+/* ------------------------------- */
+/* 3. Structure                    */
+/* ------------------------------- */
+
+*
+{
+box-sizing: border-box;
+letter-spacing: 0.01em;
+word-spacing: 0.015em;
+line-height: 1.35em;
+}
+
+html
+{
+min-height: 100%;
+font-family: 'Source Sans Pro', Arial;
+font-size: 18px;
+background-color: #181818; /* if for some reason image does not load */
+background-image: url('../images/back.png');
+background-attachment: fixed;
+background-repeat: repeat;
+}
+
+nav
+{
+padding: 0.5em;
+text-align: right;
+}
+
+header
+{
+text-align: center;
+}
+
+header img
+{
+width: 700px;
+max-width: 100%;
+}
+
+main
+{
+margin: 2em 0;
+}
+
+footer
+{
+text-align: center;
+color: white;
+font-size: 0.8em;
+}
+
+
+/* ------------------------------- */
+/* 4. Main                         */
+/* ------------------------------- */
+
+main .form
+{
+margin: 0 auto;
+padding: 0.75em;
+text-align: center;
+background-color: white;
+}
+
+main .form input
+{
+width: 100%;
+}
+
+
+/* ------------------------------- */
+/* 5. Various                      */
+/* ------------------------------- */
+
+i
+{
+font-family: "Icons";
+font-style: normal;
+}
+
+.slider
+{
+width: 100px;
+height: 100px;
+}
+
+.slider-rotating
+{
+animation: rotation 2s infinite linear;
+}
+
+
+/* ------------------------------- */
+/* 6. purecss additions            */
+/* ------------------------------- */
+
+.pure-button-success
+{
+background-color: #2ecc71;
+}

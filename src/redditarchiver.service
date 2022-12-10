@@ -1,0 +1,12 @@
+[Unit]
+Description=redditarchiver
+After=network.target
+
+[Service]
+User=redditarchiver
+Group=redditarchiver
+WorkingDirectory=/srv/redditarchiver
+ExecStart=/srv/redditarchiver/run.sh
+
+[Install]
+WantedBy=multi-user.target

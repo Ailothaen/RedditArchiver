@@ -1,0 +1,10 @@
+
+.icon-floppy:before { content: '\41'; } /* 'A' */
+.icon-download-cloud:before { content: '\42'; } /* 'B' */
+.icon-link:before { content: '\43'; } /* 'C' */
+.icon-down-open:before { content: '\44'; } /* 'D' */
+.icon-left-open:before { content: '\45'; } /* 'E' */
+.icon-right-open:before { content: '\46'; } /* 'F' */
+.icon-up-open:before { content: '\47'; } /* 'G' */
+.icon-sliders:before { content: '\48'; } /* 'H' */
+.icon-help-circled:before { content: '\49'; } /* 'I' */

@@ -1,0 +1,14 @@
+app:
+  name: Reddit Archiver
+  url: "https://redditarchiver.example.com"
+  only-allow-from:
+    - '198.51.100.0/24'
+    - '2001:db8::/32'
+reddit:
+  client-id: redacted
+  client-secret: redacted
+  root: 'https://www.reddit.com'
+paths:
+  output: output
+defaults:
+  dateformat: '%a %Y-%m-%d at %H:%M'
