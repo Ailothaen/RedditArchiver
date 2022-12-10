@@ -40,13 +40,13 @@ If you want to host your own instance on a little server of yours (and you shoul
 ### Install system dependencies
 
 ```bash
-\# apt install python3-pip python3-venv
+# apt install python3-pip python3-venv
 ```
 
 It is strongly advised to create a system user dedicated to the app:
 
 ```bash
-\# adduser redditarchiver
+# adduser redditarchiver
 ```
 
 ### Create the Reddit app
@@ -62,16 +62,16 @@ Drop all the content of `src` in a directory on your server.
 Make sure the running user has write access to directories `data`, `logs`, `output` and `run`, and can run `run.sh`.
 
 ```bash
-\# chown redditarchiver: . -R
-\# chmod 444 * -R
-\# chmod 544 static templates -R
-\# chmod 744 run.sh data run logs output -R
+# chown redditarchiver: . -R
+# chmod 444 * -R
+# chmod 544 static templates -R
+# chmod 744 run.sh data run logs output -R
 ```
 
 Switch to the dedicated user, create a Python virtualenv and activate it:
 
 ```bash
-\# su redditarchiver
+# su redditarchiver
 $ python3 -m venv env
 $ source env/bin/activate
 ```
@@ -90,9 +90,9 @@ Copy `redditarchiver.service` into `/etc/systemd/system`. Do not forget to chang
 
 Then
 ```bash
-\# systemctl daemon-reload
-\# systemctl enable redditarchiver
-\# systemctl start redditarchiver
+# systemctl daemon-reload
+# systemctl enable redditarchiver
+# systemctl start redditarchiver
 ```
 
 ### Setup reverse proxy
@@ -111,8 +111,8 @@ Do not forget to enable mod_proxy and mod_proxy_http on Apache.
 You also need to give appropriate rights to the Apache user on `run` directory:
 
 ```
-\# chgrp www-data run
-\# chmod 2774 run -R
+# chgrp www-data run
+# chmod 2774 run -R
 ```
 
 Restart both Apache and RedditArchiver.
