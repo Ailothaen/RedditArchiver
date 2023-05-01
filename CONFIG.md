@@ -7,6 +7,7 @@ app:
   only-allow-from:
     - '1.2.3.5/32'
     - '3401:722::0119::/64'
+  disable-recursion-limit: false
 reddit:
   client-id: c66425afb0f54a27905b74c2f8449d8f
   client-secret: 4747072335d74e2b8ac8-e4fbec152dca
@@ -22,6 +23,7 @@ defaults:
 |app.name|Name of the app, as it appears on the frontend.|
 |app.url|URL of the main endpoint of the app, where it will be accessible to the users. Do not include a trailing slash.|
 |app.only-allow-from|A list of IP ranges you want to restrict the app access to. If you want to allow everyone to access the app, remove this property.|
+|app.disable-recursion-limit|If the level of nested replies in a thread is *very* high (about 1000+, which is very rare), the generating process will fail because of Python's recursion limit. Setting this property to `true` disables the limit. However, please note that this may lead to higher resource usage, and might potentially crash the app.|
 |reddit.client-id|Client ID of your Reddit app, as shown in https://www.reddit.com/prefs/apps|
 |reddit.client-secret|Client secret of your Reddit app, as shown in https://www.reddit.com/prefs/apps|
 |reddit.root|Main endpoint of Reddit. You should not have to edit this value.|

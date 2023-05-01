@@ -9,7 +9,7 @@ from logging.handlers import RotatingFileHandler
 with open('config.yml', 'r') as f:
     config = yaml.safe_load(f)
 
-config['app']['version'] = "1.0.0"
+config['app']['version'] = "1.1.0"
 config['app']['project'] = "https://github.com/Ailothaen/RedditArchiver"
 config['reddit']['agent'] = f"{config['app']['name']} v{config['app']['version']} (by u/ailothaen)"
 config['runtime'] = {}

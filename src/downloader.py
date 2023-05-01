@@ -9,7 +9,7 @@ from anytree import util as anytree_util
 import praw, prawcore, markdown2
 
 # stdlib
-import datetime, os, logging, re
+import datetime, os, logging, sys
 
 log = logging.getLogger('redditarchiver_main')
 
@@ -220,12 +220,23 @@ def main(submission_id, token, job_id, sort="confidence"):
             log.error(f'{job_id}: prawcore.exceptions.ResponseException ({e})', exc_info=True)
             models.mark_job_failure(db, job_id, reason='BAD_AUTHENTICATION')
             return
-
-        log.info(f'{job_id}: submission downloaded')
+        else:
+            log.info(f'{job_id}: submission downloaded')
 
         # Generating HTML structure
-        html = generate_html(submission, submission_id, now_str, sort, comments_index, comments_forest)
-        log.info(f'{job_id}: submission structured')
+        while True: # allows to retry
+            try:
+                html = generate_html(submission, submission_id, now_str, None, comments_index, comments_forest)
+            except RecursionError:
+                if config["app"]["disable-recursion-limit"]:
+                    sys.setrecursionlimit(sys.getrecursionlimit()*2)
+                else:
+                    log.error(f"The HTML structure could not be generated because the structure of the replies is going too deep for the program to handle. If you really want to handle such submissions, set the parameter \"disable-recursion-limit\" to true in the configuration. However, please note that this may lead to higher resource usage, and might potentially crash the app.")
+                    models.mark_job_failure(db, job_id, reason='UNKNOWN')
+                    return
+            else:
+                log.info(f'{job_id}: submission structured')
+                break
 
         # Saving to disk
         try:

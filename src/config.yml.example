@@ -4,6 +4,7 @@ app:
   only-allow-from:
     - '198.51.100.0/24'
     - '2001:db8::/32'
+  disable-recursion-limit: false
 reddit:
   client-id: redacted
   client-secret: redacted
