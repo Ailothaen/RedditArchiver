@@ -113,7 +113,7 @@ def cleanup_sessions(model):
     Remove all tokens unused since 3 months
     """
     now = datetime.datetime.now(datetime.timezone.utc).timestamp()
-    model[1].execute('DELETE FROM tokens WHERE (:now - last_seen_at) > 776000', {'now': now})
+    model[1].execute('DELETE FROM tokens WHERE (:now - last_seen_at) > 7760000', {'now': now})
     model[0].commit()
 
 
