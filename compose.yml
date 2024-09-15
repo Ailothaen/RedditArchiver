@@ -1,0 +1,32 @@
+services:
+  redditarchiver:
+    build:
+      context: .
+      dockerfile: Dockerfile.redditarchiver
+      args:
+        NAME: RedditArchiver
+        APP_URL: http://localhost
+        REDDIT_CLIENT_ID: $REDDIT_CLIENT_ID
+        REDDIT_CLIENT_SECRET: $REDDIT_CLIENT_SECRET
+        DOCKER_LOCALHOST_IP: 192.168.65.0/24
+    ports:
+      - "5000:5000"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:5000" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    volumes:
+        - output:/app/output
+        - logs:/app/logs
+  revproxy:
+    build:
+      context: .
+      dockerfile: Dockerfile.nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - redditarchiver
+volumes:
+    output:
+    logs:

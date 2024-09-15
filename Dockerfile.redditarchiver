@@ -1,0 +1,112 @@
+# syntax=docker/dockerfile:1.9
+FROM ubuntu:noble AS build
+
+ARG PY_VERSION=3.12
+SHELL ["sh", "-exc"]
+
+### Start Build Prep.
+RUN apt-get update -qy && \
+    apt-get install -qyy \
+    -o APT::Install-Recommends=false \
+    -o APT::Install-Suggests=false \
+    gnupg2 \
+    build-essential \
+    ca-certificates \
+    python3-setuptools \
+    python${PY_VERSION}-dev
+
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
+
+ENV UV_LINK_MODE=copy \
+    UV_COMPILE_BYTECODE=1 \
+    UV_PYTHON_DOWNLOADS=never \
+    UV_PYTHON=python${PY_VERSION} \
+    UV_PROJECT_ENVIRONMENT=/app
+
+COPY pyproject.toml /_lock/
+COPY uv.lock /_lock/
+
+RUN --mount=type=cache,target=/root/.cache <<EOT
+cd /_lock
+uv sync \
+    --frozen \
+    --no-dev \
+    --no-install-project
+EOT
+
+COPY . /src
+RUN --mount=type=cache,target=/root/.cache \
+    uv pip install \
+        --python=$UV_PROJECT_ENVIRONMENT \
+        --no-deps \
+        /src
+
+##########################################################################
+
+FROM ubuntu:noble
+SHELL ["sh", "-exc"]
+ARG PY_VERSION=3.12
+ARG APP_URL=http://localhost:5000
+ARG REDDIT_CLIENT_ID
+ARG REDDIT_CLIENT_SECRET
+ARG DOCKER_LOCALHOST_IP
+
+ENV PATH=/app/bin:$PATH
+
+COPY docker-entrypoint.sh /app/docker-entrypoint.sh
+
+# Create app user
+RUN <<EOT
+groupadd -r app
+useradd -r -d /app -g app -N app
+EOT
+
+# Install dependencies
+RUN <<EOT
+apt-get update -qy
+apt-get install -qyy \
+    -o APT::Install-Recommends=false \
+    -o APT::Install-Suggests=false \
+    python${PY_VERSION} \
+    libpython${PY_VERSION} \
+    libpcre3 \
+    libxml2
+
+apt-get clean
+rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+EOT
+
+COPY --from=build --chown=app:app /app /app
+
+# Setup redditarchiver
+WORKDIR /app
+
+COPY src/reddit_archiver /app/
+COPY config.yml.example config.yml
+
+RUN chown -R app:app /app/ && \
+    chmod +x /app/docker-entrypoint.sh
+
+
+
+# Adjust config.yml
+RUN <<EOT
+sed -i "/only-allow-from:/a \ \ \ \ - '${DOCKER_LOCALHOST_IP}'" /app/config.yml
+sed -i "s|url:.*|url: \"${APP_URL}\"|g" /app/config.yml
+sed -i "s|client-id:.*|client-id: ${REDDIT_CLIENT_ID}|g" /app/config.yml
+sed -i "s|client-secret:.*|client-secret: ${REDDIT_CLIENT_SECRET}|g" /app/config.yml
+EOT
+
+# Smoke test. If importing reddit_archiver fails, the build should fail.
+RUN <<EOT
+python -V
+python -Im site
+python -Ic 'import reddit_archiver'
+EOT
+
+USER app
+
+EXPOSE 5000
+
+ENTRYPOINT ["/app/docker-entrypoint.sh"]
+STOPSIGNAL SIGINT

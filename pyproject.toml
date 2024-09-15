@@ -1,0 +1,20 @@
+[project]
+name = "redditarchiver"
+version = "0.1.0"
+description = "A simple web app to archive Reddit posts and comments."
+readme = "README.md"
+requires-python = ">=3.7"
+dependencies = [
+   "anytree >=2.8.0",
+   "flask >=2.2.2",
+   "flask-apscheduler >=1.12.4",
+   "gunicorn>=23.0.0",
+   "markdown2 >=2.4.3",
+   "praw >=7.6.0",
+   "prawcore >=2.3.0",
+   "pyyaml>=6.0.1",
+   "redditarchiver",
+]
+
+[tool.uv.sources]
+redditarchiver = { workspace = true }

@@ -8,8 +8,8 @@ def create():
     """
     base = sqlite3.connect("data/redditarchiver.sqlite3")
     cursor = base.cursor()
-    cursor.execute('CREATE TABLE "tokens" ("id" TEXT, "ip" TEXT, "created_at" INTEGER, "last_seen_at" INTEGER, "token" TEXT, PRIMARY KEY("id"))')
-    cursor.execute('CREATE TABLE "jobs" ("id" TEXT, "started_at" INTEGER, "finished_at" INTEGER, "submission" TEXT, "nb_replies" INTEGER, "requestor" TEXT, "status" TEXT, "failure_reason" INTEGER, "filename" TEXT, PRIMARY KEY("id"), FOREIGN KEY("requestor") REFERENCES "tokens"("id"))')
+    cursor.execute('CREATE TABLE IF NOT EXISTS "tokens" ("id" TEXT, "ip" TEXT, "created_at" INTEGER, "last_seen_at" INTEGER, "token" TEXT, PRIMARY KEY("id"))')
+    cursor.execute('CREATE TABLE IF NOT EXISTS "jobs" ("id" TEXT, "started_at" INTEGER, "finished_at" INTEGER, "submission" TEXT, "nb_replies" INTEGER, "requestor" TEXT, "status" TEXT, "failure_reason" INTEGER, "filename" TEXT, PRIMARY KEY("id"), FOREIGN KEY("requestor") REFERENCES "tokens"("id"))')
     base.commit()
     base.close()
 
