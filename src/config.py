@@ -2,14 +2,27 @@
 import yaml
 
 # stdlib
-import logging, sys
+import logging, os, sys
 from logging.handlers import RotatingFileHandler
 
 
-with open('config.yml', 'r') as f:
-    config = yaml.safe_load(f)
+# Loading config
+if os.path.isfile("config.yml"):
+    with open('config.yml', 'r') as f:
+        config = yaml.safe_load(f)
+        config["docker"] = False
+elif os.path.isfile("config-docker.yml"):
+    with open('config-docker.yml', 'r') as f:
+        config = yaml.safe_load(f)
+        config["docker"] = True
+        config["paths"] = {}
+        config["paths"]["output"] = "output"
+else:
+    print("No configuration file could be found. Check if a file config.yml or config-docker.yml (depending on your case; read the documentation) is present in the same directory as app.py, and if the current working directory is the same directory as app.py.", file=sys.stderr)
+    raise SystemExit(1)
 
-config['app']['version'] = "1.1.0"
+
+config['app']['version'] = "1.2.0"
 config['app']['project'] = "https://github.com/Ailothaen/RedditArchiver"
 config['reddit']['agent'] = f"{config['app']['name']} v{config['app']['version']} (by u/ailothaen)"
 config['runtime'] = {}

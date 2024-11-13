@@ -1,0 +1,10 @@
+app:
+  name: Reddit Archiver
+  url: "https://redditarchiver.example.com"
+  disable-recursion-limit: false
+reddit:
+  client-id: redacted
+  client-secret: redacted
+  root: 'https://www.reddit.com'
+defaults:
+  dateformat: '%a %Y-%m-%d at %H:%M'

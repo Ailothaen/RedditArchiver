@@ -18,11 +18,16 @@ def before_request_callback():
     Initialises cookie and Reddit token
     """
     # Preventing unauthorized people to access the app
-    client_ip = flask.request.headers.getlist("X-Forwarded-For")[0]
-    is_allowed = auth.is_client_allowed(client_ip)
-    if not is_allowed:
-        log.warning(f"Access denied from {client_ip}")
-        flask.abort(403)
+    if config["docker"]:
+        # No easy way to use X-Forwarded-For inside a Docker container, from what I know.
+        # If you do know, your help is welcome!
+        pass
+    else:
+        client_ip = flask.request.headers.getlist("X-Forwarded-For")[0]
+        is_allowed = auth.is_client_allowed(client_ip)
+        if not is_allowed:
+            log.warning(f"Access denied from {client_ip}")
+            flask.abort(403)
 
     flask.g.db = models.connect()
     flask.g.resp = flask.make_response()
