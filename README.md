@@ -23,9 +23,9 @@ When someone requests the download of a submission, the application uses in back
 
 ## Why do I have to allow RedditArchiver to "read through my account"?
 
-~~Each user, when interacting with Reddit API, has a "speed limit" of how much submissions/comments they are allowed to read. If everyone was using the name of RedditArchiver to read submissions, this speed would be reached quickly.
+~~Each user, when interacting with Reddit API, has a "speed limit" of how much submissions/comments they are allowed to read. If everyone was using the name of RedditArchiver to read submissions, this speed would be reached quickly.~~
 
-Therefore, RedditArchiver reads Reddit **on behalf of the requesting user**, and not on its own behalf, to avoid running into rate limiting issues. Please note that, when you allow RedditArchiver to "read through your account", you **only allow it** to **read public submissions on your behalf**: RedditArchiver is not able to see your upvoted/saved posts, your user information, or your password, because the "read" permission does not cover this. It is not even able to see your Reddit username.~~
+~~Therefore, RedditArchiver reads Reddit **on behalf of the requesting user**, and not on its own behalf, to avoid running into rate limiting issues. Please note that, when you allow RedditArchiver to "read through your account", you **only allow it** to **read public submissions on your behalf**: RedditArchiver is not able to see your upvoted/saved posts, your user information, or your password, because the "read" permission does not cover this. It is not even able to see your Reddit username.~~
 
 **Update:** Because of the Reddit API policy changes in 2023, this is no longer true: rate limiting is now done on app basis and no longer on user+app basis, which makes that "query saving" feature useless. The account link is still required because some features rely on it, but it may be removed in a future update, as it is now irrelevant.
 
