@@ -7,6 +7,13 @@ Downloaded submissions are included in a html file with formatting and navigatio
 
 ℹ️ Looking for RedditArchiver without the web server, which consists only of a Python script? Check [RedditArchiver-standalone](https://github.com/ailothaen/RedditArchiver-standalone)
 
+> [!WARNING]
+> In November 2025, Reddit decided to require all new API token creations to be approved by Reddit admins. Since this change was primarily made to deter scrapers and LLMs from using Reddit data, it is very unlikely you will get a token approved if you tell "I want to use a software to archive Reddit posts" as a justification.
+>
+> In practice, this means that Reddit API is now gone and that this project is no longer usable if you did not have an API token registered before. This is another move towards the enshittification of this platform (that already began in 2023 when hard limits were imposed on the APIs). If you are lucky enough to have an API token already registered, **DO NOT DELETE IT**. 
+>
+> It may be still possible to save posts and comments using the API unauthenticated endpoints, but this project is not doing that. I suggest looking into other projects if you are in this case.
+
 ## Screenshots
 
 <p align="center">
@@ -54,6 +61,9 @@ adduser redditarchiver
 ### Create the Reddit app
 
 Go to https://www.reddit.com/prefs/apps and create a new app. The type should be "web app" and the redirect URI should be `<your endpoint>/token`. So for example, if your app is going to be accessible on `https://redditarchiver.example.com`, it should be `https://redditarchiver.example.com/token`. (You are not forced to expose the app on the Internet – a private IP address also works)
+
+> [!WARNING]
+> If you have a message telling "In order to create an application or use our API you can read our full policies here...", you are likely out of luck (read the warning message at the beginning of this README)
 
 Take note of the app ID and the app secret.
 
@@ -169,3 +179,4 @@ Be reminded that the `only-allow-from` feature of the configuration file is not 
 ## Licensing
 
 This software is licensed [with MIT license](https://github.com/ailothaen/RedditArchiver/blob/main/LICENSE).
+
